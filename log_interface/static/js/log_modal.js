@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             try{
-                fetch("http://127.0.0.1:5000/create_log",
+                fetch("/create_log",
                 {
                     method: 'POST',
                     headers: {

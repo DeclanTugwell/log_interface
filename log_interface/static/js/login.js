@@ -9,7 +9,7 @@ async function checkPassword() {
         password: passwordInput.value.trim()
     }
     try{
-        fetch("http://127.0.0.1:5000/login",
+        fetch("/login",
         {
             method: 'POST',
             headers: {

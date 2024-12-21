@@ -26,7 +26,7 @@ function confirmDelete(accountId) {
     const userConfirmed = confirm("Are you sure you want to delete this account?");
     
     if (userConfirmed) {
-        fetch(`http://127.0.0.1:5000/delete_account/${accountId}`, {
+        fetch(`/delete_account/${accountId}`, {
             method: "DELETE"
         })
         .then(response => {

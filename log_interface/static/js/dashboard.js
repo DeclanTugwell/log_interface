@@ -32,7 +32,7 @@ async function deleteLog(logId) {
     const userConfirmed = confirm("Are you sure you want to delete this log?");
     
     if (userConfirmed) {
-        fetch(`http://127.0.0.1:5000/delete_log/${logId}`, {
+        fetch(`/delete_log/${logId}`, {
             method: "DELETE"
         })
         .then(response => {
@@ -52,7 +52,7 @@ async function deleteProject(projectId){
     const userConfirmed = confirm("Are you sure you want to delete this Project? \nThis will delete all associated logs in a cascading effect.");
     
     if (userConfirmed) {
-        fetch(`http://127.0.0.1:5000/delete_project/${projectId}`, {
+        fetch(`/delete_project/${projectId}`, {
             method: "DELETE"
         })
         .then(response => {
@@ -73,7 +73,7 @@ async function logout() {
     
     if (userConfirmed) {
         try{
-            fetch("http://127.0.0.1:5000/logout",
+            fetch("/logout",
             {
                 method: 'GET',
                 headers: {

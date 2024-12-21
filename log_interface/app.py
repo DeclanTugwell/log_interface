@@ -8,11 +8,14 @@ def init_db():
     """
     Initialises the database
     """
-    with app.app_context():
-        db = BaseRepository.get_db()
-        with app.open_resource("schema.sql", mode="r") as f:
-            db.executescript(f.read())
-            db.commit()
+    try:
+        with app.app_context():
+            db = BaseRepository.get_db()
+            with app.open_resource("schema.sql", mode="r") as f:
+                db.executescript(f.read())
+                db.commit()
+    except:
+        print("Database already initialised")
 
 # Defines the application configuration
 app = Flask(__name__)
@@ -27,4 +30,5 @@ register_endpoints(app)
 
 if __name__ == '__main__':
     init_db()
-    app.run(debug=True)
+    port = int(os.getenv("PORT", 5000))  # Get the PORT environment variable or default to 5000
+    app.run(host="0.0.0.0", port=port)

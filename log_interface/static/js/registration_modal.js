@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             try{
-                fetch("http://127.0.0.1:5000/register",
+                fetch("/register",
                 {
                     method: 'POST',
                     headers: {

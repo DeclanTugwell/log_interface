@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             try{
-                fetch("http://127.0.0.1:5000/create_project",
+                fetch("/create_project",
                 {
                     method: 'POST',
                     headers: {
