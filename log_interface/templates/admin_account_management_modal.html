@@ -1,0 +1,17 @@
+<div id="account-management-modal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="close-admin-modal">&times;</span>
+        <h2>Account List</h2>
+            {% for account in accounts %}
+                <div class="account-widget">
+                    <div class="account-info">
+                        <p><strong>Name:</strong> {{ account.username }}</p>
+                        <p><strong>Account ID:</strong> {{ account.account_id }}</p>
+                        <p><strong>Account Type:</strong> {{ account.account_type.name }}</p>
+                    </div>
+                    <button class="delete-account-btn" onclick="confirmDelete(`{{account.account_id }}`)">Delete</button>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

@@ -1,0 +1,19 @@
+.modal-content label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: white;
+}
+
+.modal-content input,
+.modal-content select {
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid white;
+    background-color: #505050;
+    color: white;
+    width: 100%;
+    box-sizing: border-box;
+    outline: none;
+}

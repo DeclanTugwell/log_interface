@@ -1,0 +1,21 @@
+@import url('base_styles.css');
+
+.register-btn {
+    padding-right: 1%;
+    padding-bottom: 1%;
+    padding-left: 1%;
+    padding-top: 5%;
+    cursor: pointer;
+}
+
+.register-btn-container{
+    display: flex;
+    align-items: center;
+    border: 1px solid white;
+    border-radius: 8px;
+    padding: 10px;
+    transition: border-color 0.3s ease;
+    background-color: #343434;
+    color: white;
+    cursor: pointer;
+}

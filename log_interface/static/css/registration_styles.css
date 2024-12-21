@@ -1,0 +1,32 @@
+@import url('base_styles.css');
+@import url('modal_base_styles.css');
+
+.admin-label {
+    display: flex;
+    align-items: center;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.admin-label input[type="checkbox"] {
+    appearance: none;
+    margin: 20px;
+    padding: 0;
+    transform: scale(1.6);
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 2px solid white;
+    border-radius: 4px;
+    background-color: #505050;
+    cursor: pointer;
+}
+
+.admin-label input[type="checkbox"]:checked {
+    background-color: green;
+}
+
+.admin-label input[type="checkbox"] + span {
+    margin-left: 20px;
+}

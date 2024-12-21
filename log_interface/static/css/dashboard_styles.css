@@ -1,0 +1,194 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    background-color: #343434;
+    color: white;
+    font-family: Arial, sans-serif;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.dashboard-container {
+    padding: 20px;
+    background-color: #343434;
+    color: white;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+}
+
+.dashboard-title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.header-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.logout-btn {
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.logout-btn:hover {
+    background-color: #c9302c;
+}
+
+.admin-panel-btn {
+    padding: 10px 15px;
+    background-color: #505050;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.admin-panel-btn:hover {
+    background-color: #606060;
+}
+
+.create-project-btn {
+    padding: 10px 20px;
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    display: inline-block;
+    width: 130px;
+    font-size: 14px;
+}
+
+.create-log-btn {
+    padding: 10px 20px;
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-block;
+    width: 170px;
+    font-size: 14px;
+}
+
+.create-log-btn:hover,
+.create-project-btn:hover {
+    background-color: darkgreen;
+}
+
+button {
+    font-family: inherit;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    border: none;
+    padding: 8px 16px;
+}
+
+.delete-account-btn,
+.delete-project-btn,
+.delete-log-btn {
+    padding: 10px 20px;
+    background-color: #d9534f;
+    color: white;
+    font-size: 14px;
+}
+
+.delete-account-btn:hover,
+.delete-project-btn:hover,
+.delete-log-btn:hover {
+    background-color: #c9302c;
+}
+
+.projects-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.project-widget {
+    background-color: #505050;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.project-header {
+    padding: 15px;
+    font-size: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    background-color: #505050;
+}
+
+.project-name {
+    font-weight: bold;
+}
+
+.expand-icon {
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+}
+
+.project-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.logs-list {
+    padding: 10px 20px;
+    background-color: #424242;
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.log-widget {
+    background-color: #606060;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.log-header {
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.log-type {
+    font-size: 14px;
+    font-style: italic;
+}
+
+.log-details {
+    padding: 10px;
+    background-color: #505050;
+}
+
+.log-message {
+    margin: 10px 0;
+}

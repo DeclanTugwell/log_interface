@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="../static/css/dashboard_styles.css">
+    <link rel="stylesheet" href="../static/css/account_management.css">
+    <link rel="stylesheet" href="../static/css/log_creation_styles.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h1 class="dashboard-title">{{ username }}'s Dashboard</h1>
+            <div class="header-buttons">
+                <button id="logout-button" class="logout-btn" onclick="logout()">Logout</button>
+                {% if isAdmin %}
+                <button id="open-admin-modal" class="admin-panel-btn">Admin Panel</button>
+                {% endif %}
+            </div>
+        </div>
+        <button class="create-project-btn" id="project-open-modal">Create Project</button>
+        <div class="projects-list">
+            {% for project in projects %}
+            <div class="project-widget">
+                <div class="project-header" onclick="toggleProjectLogs('{{ project.project_id }}')">
+                    <span class="project-name">({{project.project_id}}) {{ project.project_name }}</span>
+                    <span class="expand-icon" id="expand-icon-{{ project.project_id }}">+</span>
+                </div>
+                <div class="logs-list" id="logs-list-{{ project.project_id }}" style="display: none;">
+                    <div class="project-buttons">
+                        <button onclick="onCreateLogMessage('{{ project.project_id }}')" class="create-log-btn log-open-modal">Create Log Message</button>
+                        <button class="delete-project-btn" onclick="deleteProject('{{ project.project_id }}')">Delete Project</button>
+                    </div>
+                    {% for log in project.log_list %}
+                    <div class="log-widget">
+                        <div class="log-header" onclick="toggleLogMessage('{{ log.log_id }}')">
+                            <span class="log-timestamp">{{ log.timestamp }}</span>
+                            <span class="log-type">{{ log.log_type.name }}</span>
+                            <span class="expand-icon" id="expand-log-icon-{{ log.log_id }}">+</span>
+                        </div>
+                        <div class="log-details" id="log-details-{{ log.log_id }}" style="display: none;">
+                            <p class="log-message">{{ log.message }}</p>
+                            <button class="delete-log-btn" onclick="deleteLog('{{ log.log_id }}')">Delete</button>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        </div>
+        {% include 'admin_account_management_modal.html' %}
+        {% include 'project_modal.html' %}
+        {% include 'log_modal.html' %}
+    </div>
+
+    <script src="../static/js/dashboard.js"></script>
+    <script src="{{ url_for('static', filename='js/account_management_modal.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/project_modal.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/log_modal.js') }}"></script>
+</body>
+</html>

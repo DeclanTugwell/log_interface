@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="../static/css/login_styles.css">
+    <link rel="stylesheet" href="../static/css/registration_styles.css">
+</head>
+<body>
+    <div class="app">
+        <div class="app-body">
+            <div class="title">Login</div>
+            <div>
+                <div id="login-entry" class="input-box">
+                    <input id="username-input" placeholder="Username" />
+                    <input id="password-input" type="password" placeholder="Password" />
+                    <button id="submit-button">&#10148;</button>
+                </div>
+            </div>
+            <div class="register-btn">
+                <button id="open-modal" class="register-btn-container">Register</button>
+            </div>
+            {% include 'registration_modal.html' %}
+        </div>
+    </div>
+
+    <script src="../static/js/login.js"></script>
+    <script src="{{ url_for('static', filename='js/registration_modal.js') }}"></script>
+</body>
+</html>
