@@ -49,7 +49,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 .then(data => {
                     const projectId = data.body;
                     projectIdLabel.innerHTML = `<b>Project ID:</b> ${projectId}`
-                    projectEndpointLabel.innerHTML = `<b>Endpoint:</b> http://127.0.0.1:5000/log/${projectId}`
+                    let currentURL = `${window.location.protocol}//${window.location.hostname}/create_log/`
+                    projectEndpointLabel.innerHTML = `<b>Create Log Endpoint:</b> ${currentURL}`
                 })
                 .catch(exception => {
                     console.error(exception)
