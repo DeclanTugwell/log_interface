@@ -1,5 +1,7 @@
 # Readme.md
 
+*This is for a Uni assignment - **security** was **not** much of a factor*
+
 ## Application Setup
 
 ### Required Software
