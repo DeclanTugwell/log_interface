@@ -1,5 +1,7 @@
 from flask import Blueprint, session, jsonify, request
 from models.project_model import ProjectModel
+from models.account_model import AccountModel
+from services.database_notification_service import send_notification
 
 """
 Contains endpoints related to the project table
@@ -25,6 +27,7 @@ def add_project():
         project_modal = ProjectModel.create_model_from_request(project_name, account_id)
         new_project = project_modal.create_project()
         print(new_project.project_id)
+        send_notification()
         return jsonify({
             'status': 'ok',
             'body' : str(new_project.project_id)
@@ -35,20 +38,46 @@ def add_project():
             'message': 'Error creating account'
         }), 401
     
+@project_blueprint.route("/get_projects", methods=['GET'])
+def get_projects():
+    try:
+        account = AccountModel.fetch_account_by_id(session["user_id"])
+        projects = account.fetch_associated_populated_projects()
+        serialised_projects = []
+        for project in projects:
+             serialised_projects.append(project.serialise())
+        return jsonify({
+            "status" : "ok",
+            "projects": serialised_projects
+        }), 200
+    except:
+        return jsonify({
+            "status" : "error",
+            "message" : "Unauthorised"
+        }), 404
+    
 @project_blueprint.route("/delete_project/<int:project_id>", methods=['DELETE'])
 def delete_project(project_id):
     """
     Deletes the project within the project table based upon the project_id provided.
     """
     try:
-        target_project = ProjectModel.fetch_project_by_id(project_id)
-        target_project.populate()
-        target_project.delete_associated_logs()
-        target_project.delete_project()
-        return jsonify({
-            "status" : "ok",
-            "message" : project_id
-        }), 200
+        account = AccountModel.fetch_account_by_id(session["user_id"])
+        if account.is_admin():
+            target_project = ProjectModel.fetch_project_by_id(project_id)
+            target_project.populate()
+            target_project.cascade_delete()
+            target_project.delete_project()
+            send_notification()
+            return jsonify({
+                "status" : "ok",
+                "message" : project_id
+            }), 200
+        else:
+                return jsonify({
+                "status" : "Unauthorised",
+                "message" : project_id
+            }), 401
     except:
         return jsonify({
             "status" : "error",

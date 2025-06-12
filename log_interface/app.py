@@ -1,10 +1,11 @@
 import os
 from flask import Flask
-from repositories.base_repository import *
-from models.account_model import *
-from routes import register_endpoints
+from repositories.base_repository import BaseRepository
+from flask_socketio import SocketIO
 
-def init_db():
+socket = SocketIO()
+
+def init_db(app):
     """
     Initialises the database
     """
@@ -18,17 +19,11 @@ def init_db():
         print("Database already initialised")
 
 # Defines the application configuration
-app = Flask(__name__)
-app.config.update(dict(
-    DATABASE=os.path.join(app.root_path, os.getenv('DATABASE', 'database.db')),
-    SECRET_KEY=os.urandom(24),
-))
-
-# Registers endpoints used within the application
-register_endpoints(app)
-
-
-if __name__ == '__main__':
-    init_db()
-    port = int(os.getenv("PORT", 5000))  # Get the PORT environment variable or default to 5000
-    app.run(host="0.0.0.0", port=port)
+def initialise_app():
+    app = Flask(__name__)
+    app.config.update(dict(
+        DATABASE=os.path.join(app.root_path, "/data", os.getenv('DATABASE', 'data.db')),
+        SECRET_KEY=os.urandom(24),
+    ))
+    socket.init_app(app)
+    return app

@@ -1,7 +1,8 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, session
 from models.log_model import LogModel
 from datetime import datetime
 from enums.log_type import LogType
+from services.database_notification_service import send_notification
 
 """
 Contains endpoints related to the log table
@@ -15,20 +16,26 @@ def add_log():
     Creates a log entry using the data provided in the post request
     """
     try:
-        data = request.get_json()
-        message = data.get("message")
-        logType = LogType(int(data.get("logType")))
-        timestamp = data.get("timestamp")
-        project_id = data.get("projectId")
-        if timestamp == "":
-            timestamp = datetime.now()
-        log_model = LogModel.create_from_request(project_id, message, timestamp, logType)
-        log_model.create_log()
+        if (session["user_id"] is not None):
+            data = request.get_json()
+            message = data.get("message")
+            logType = LogType(int(data.get("logType")))
+            timestamp = data.get("timestamp")
+            session_id = data.get("sessionId")
+            if timestamp == "":
+                timestamp = datetime.now()
+            log_model = LogModel.create_from_request(session_id, message, timestamp, logType)
+            log_model.create_log()
 
-        return jsonify({
-            'status': 'ok',
-            'body' : "Log created"
-        }), 200
+            return jsonify({
+                'status': 'ok',
+                'body' : "Log created"
+            }), 200
+        else:
+            return jsonify({
+                'status': 'unauthorised',
+                'body' : "Log created"
+            }), 401
     except:
         return jsonify({
             'status' : 'error',
@@ -41,12 +48,19 @@ def delete_log(log_id):
     Deletes a log entry from the log table based on the log id
     """
     try:
-        target_log = LogModel.fetch_log_by_id(log_id)
-        target_log.delete_log()
-        return jsonify({
-            "status" : "ok",
-            "message" : log_id
-        }), 200
+        if (session["user_id"] is not None):
+            target_log = LogModel.fetch_log_by_id(log_id)
+            target_log.delete_log()
+            send_notification()
+            return jsonify({
+                "status" : "ok",
+                "message" : log_id
+            }), 200
+        else:
+            return jsonify({
+                'status': 'unauthorised',
+                'body' : "Log created"
+            }), 401
     except:
         return jsonify({
             "status" : "error",
@@ -59,16 +73,22 @@ def get_logs(project_id):
     Fetches all logs associated with a project from the log table and returns them in JSON format
     """
     try:
-        serialised_logs = []
-        logs = LogModel.fetch_logs_by_project_id(project_id)
-        for log in logs:
-            serialised_logs.append(log.serialise())
-        return jsonify(
-            {
-                "status" : "ok",
-                "message" : "logs fetched successfully",
-                "data": serialised_logs
-            }), 200
+        if (session["user_id"] is not None):
+            serialised_logs = []
+            logs = LogModel.fetch_logs_by_session_id(project_id)
+            for log in logs:
+                serialised_logs.append(log.serialise())
+            return jsonify(
+                {
+                    "status" : "ok",
+                    "message" : "logs fetched successfully",
+                    "data": serialised_logs
+                }), 200
+        else:
+            return jsonify({
+                'status': 'unauthorised',
+                'body' : "Log created"
+            }), 401
     except:
         return jsonify({
             "status" : "error",
@@ -81,15 +101,21 @@ def update_log_type(log_id):
     Updates the log type of the log entry associated with the log_id
     """
     try:
-        data = request.get_json() 
-        new_type = LogType(data.get("logType"))
-        log = LogModel.fetch_log_by_id(log_id)
-        log.update_type(new_type)
-        return jsonify(
-                {
-                    "status" : "ok",
-                    "message" : "log updated"
-                }), 200
+        if (session["user_id"] is not None):
+            data = request.get_json() 
+            new_type = LogType(data.get("logType"))
+            log = LogModel.fetch_log_by_id(log_id)
+            log.update_type(new_type)
+            return jsonify(
+                    {
+                        "status" : "ok",
+                        "message" : "log updated"
+                    }), 200
+        else:
+            return jsonify({
+                'status': 'unauthorised',
+                'body' : "Log created"
+            }), 401
     except:
         return jsonify({
             "status" : "error",

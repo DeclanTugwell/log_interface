@@ -45,7 +45,7 @@ Password: `password`
 Username: `marcus`
 Password: `password`
 
-Username: `lily`
+Username: `isolde`
 Password: `password`
 
 Username: `Declan`

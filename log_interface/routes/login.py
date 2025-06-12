@@ -61,8 +61,7 @@ def register():
                 'message': 'Username already taken'
              }), 409
         hashed_password = generate_password_hash(password)
-        is_admin = bool(data.get("isAdmin"))
-        account_service = AccountModel.from_registration(username, hashed_password, is_admin)
+        account_service = AccountModel.from_registration(username, hashed_password, False)
         new_account = account_service.create_account()
         return jsonify({
             'status': 'ok',

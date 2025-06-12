@@ -23,38 +23,77 @@
         <div class="projects-list">
             {% for project in projects %}
             <div class="project-widget">
-                <div class="project-header" onclick="toggleProjectLogs('{{ project.project_id }}')">
+                <div class="project-header" onclick="toggleProjectUsers('{{ project.project_id }}')">
                     <span class="project-name">({{project.project_id}}) {{ project.project_name }}</span>
                     <span class="expand-icon" id="expand-icon-{{ project.project_id }}">+</span>
                 </div>
-                <div class="logs-list" id="logs-list-{{ project.project_id }}" style="display: none;">
-                    <div class="project-buttons">
-                        <button onclick="onCreateLogMessage('{{ project.project_id }}')" class="create-log-btn log-open-modal">Create Log Message</button>
-                        <button class="delete-project-btn" onclick="deleteProject('{{ project.project_id }}')">Delete Project</button>
-                    </div>
-                    {% for log in project.log_list %}
-                    <div class="log-widget">
-                        <div class="log-header" onclick="toggleLogMessage('{{ log.log_id }}')">
-                            <span class="log-timestamp">{{ log.timestamp }}</span>
-                            <span class="log-type">{{ log.log_type.name }}</span>
-                            <span class="expand-icon" id="expand-log-icon-{{ log.log_id }}">+</span>
+                <div class="project-users-list" id="project-users-{{ project.project_id }}" style="display: none;">
+                    {% for project_user in project.project_users %}
+                    <div class="project-user-widget">
+                        <div class="project-user-header" onclick="toggleUserSessions('{{ project_user.user_id }}')">
+                            <span>{{ project_user.hardware_id }}</span>
+                            <div class="user-log-summary">
+                                <span class="log-type-info"><b>Info: {{ project_user.info_count }}</b></span>
+                                <span class="log-type-event"><b>Events: {{ project_user.event_count }}</b></span>
+                                <span class="log-type-warning"><b>Warnings: {{ project_user.warning_count }}</b></span>
+                                <span class="log-type-error"><b>Errors: {{ project_user.error_count }}</b></span>
+                            </div>
+                            <span class="expand-icon" id="expand-user-icon-{{ project_user.user_id }}">+</span>
                         </div>
-                        <div class="log-details" id="log-details-{{ log.log_id }}" style="display: none;">
-                            <p class="log-message">{{ log.message }}</p>
-                            <button class="delete-log-btn" onclick="deleteLog('{{ log.log_id }}')">Delete</button>
+                        <div class="user-sessions-list" id="user-sessions-{{ project_user.user_id }}" style="display: none;">
+                            {% for session in project_user.session_list %}
+                            <div class="user-session-widget">
+                                <div class="user-session-header" onclick="toggleSessionLogs('{{ session.session_id }}')">
+                                    <span>{{ session.timestamp_str }}</span>
+                                    <div class="session-log-summary">
+                                        <span class="log-type-info"><b>Info: {{ session.info_count }}</b></span>
+                                        <span class="log-type-event"><b>Events: {{ session.event_count }}</b></span>
+                                        <span class="log-type-warning"><b>Warnings: {{ session.warning_count }}</b></span>
+                                        <span class="log-type-error"><b>Errors: {{ session.error_count }}</b></span>
+                                    </div>
+                                    <span class="expand-icon" id="expand-session-icon-{{ session.session_id }}">+</span>
+                                </div>
+                                <div class="session-logs-list" id="session-logs-{{ session.session_id }}" style="display: none;">
+                                    {% for log in session.log_list %}
+                                    <div class="log-widget">
+                                        <div class="log-header" onclick="toggleLogMessage('{{ log.log_id }}')">
+                                            <span class="log-timestamp">{{ log.timestamp }}</span>
+                                            <span class="log-type log-type-{{ log.log_type.name | lower }}">{{ log.log_type.name }}</span>
+                                            <span class="expand-icon" id="expand-log-icon-{{ log.log_id }}">+</span>
+                                        </div>
+                                        <div class="log-details" id="log-details-{{ log.log_id }}" style="display: none;">
+                                            <p class="log-message">{{ log.message }}</p>
+                                            {% if isAdmin %}
+                                            <button class="delete-log-btn delete-btn" onclick="deleteLog('{{ log.log_id }}')">Delete Log</button>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    {% if isAdmin %}
+                                    <button class="delete-session-btn delete-btn" onclick="deleteSession('{{ session.session_id }}')">Delete Session</button>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endfor %}
+                            {% if isAdmin %}
+                            <button class="delete-project-user-btn delete-btn" onclick="deleteProjectUser('{{ project_user.user_id }}')">Delete Project User</button>
+                            {% endif %}
                         </div>
                     </div>
                     {% endfor %}
+                    {% if isAdmin %}
+                    <button class="delete-project-btn delete-btn" onclick="deleteProject('{{ project.project_id }}')">Delete Project</button>
+                    {% endif %}
                 </div>
             </div>
             {% endfor %}
-        </div>
         </div>
         {% include 'admin_account_management_modal.html' %}
         {% include 'project_modal.html' %}
         {% include 'log_modal.html' %}
     </div>
-
+    
+    <script src="https://cdn.socket.io/4.5.1/socket.io.min.js"></script>
     <script src="../static/js/dashboard.js"></script>
     <script src="{{ url_for('static', filename='js/account_management_modal.js') }}"></script>
     <script src="{{ url_for('static', filename='js/project_modal.js') }}"></script>

@@ -1,4 +1,5 @@
 import sqlite3
+import os
 from flask import g
 
 class BaseRepository():
@@ -12,7 +13,9 @@ class BaseRepository():
         Fetches the database being used by the application
         """
         if "db" not in g:
-            g.db = sqlite3.connect("data.db")
+            db_path = os.path.join(os.getcwd(), "data.db")
+            print(db_path)
+            g.db = sqlite3.connect(db_path)
             g.db.row_factory = sqlite3.Row
 
         return g.db

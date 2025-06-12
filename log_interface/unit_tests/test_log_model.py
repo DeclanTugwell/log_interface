@@ -16,7 +16,7 @@ class TestLogModel(unittest.TestCase):
             MagicMock(log_id=2, project_id=1, log_type=LogType.Bug, message="Log message 2", timestamp=datetime.now())
         ]
         
-        logs = LogModel.fetch_logs_by_project_id(1)
+        logs = LogModel.fetch_logs_by_session_id(1)
         
         self.assertEqual(len(logs), 2)
         self.assertEqual(logs[0].log_id, 1)
@@ -37,7 +37,7 @@ class TestLogModel(unittest.TestCase):
         timestamp = datetime(2024, 12, 19, 15, 30)
         log_model = LogModel.create_from_request(1, "Log message", timestamp, LogType.Information)
         
-        self.assertEqual(log_model.project_id, 1)
+        self.assertEqual(log_model.session_id, 1)
         self.assertEqual(log_model.message, "Log message")
         self.assertEqual(log_model.log_type, LogType.Information)
         self.assertEqual(log_model.timestamp, timestamp)

@@ -1,5 +1,5 @@
 from repositories.project_repository import *
-from .log_model import LogModel
+from .project_user_model import ProjectUserModel
 
 class ProjectModel(Project):
     """
@@ -9,7 +9,7 @@ class ProjectModel(Project):
     Also, handles the associated logs via LogModel.
     """
     project_repository = ProjectRepository()
-    log_list = []
+    project_users = []
 
     def __init__(self, project: Project):
         """
@@ -94,12 +94,21 @@ class ProjectModel(Project):
         Populates the current ProjectModel with associated logs from the LogModel.
         Retrieves and associates logs for the project by its project_id.
         """
-        self.log_list = LogModel.fetch_logs_by_project_id(self.project_id)
+        self.project_users = ProjectUserModel.fetch_project_users_by_project_id(self.project_id)
+        for project_user in self.project_users:
+            project_user.populate()
 
-    def delete_associated_logs(self):
+    def cascade_delete(self):
         """
         Deletes all logs associated with the current project.
         Loops through the log list and calls delete_log() on each log.
         """
-        for log in self.log_list:
-            log.delete_log()
+        for project_user in self.project_users:
+            project_user.delete_project_user()
+
+    def serialise(self):
+        return {
+            "project_id": self.project_id,
+            "project_name": self.project_name,
+            "project_users": [user.serialise() for user in self.project_users]
+        }

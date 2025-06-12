@@ -112,6 +112,10 @@ button {
     font-size: 14px;
 }
 
+.delete-project-btn{
+    width: 120px
+}
+
 .delete-account-btn:hover,
 .delete-project-btn:hover,
 .delete-log-btn:hover {
@@ -185,10 +189,128 @@ button {
 }
 
 .log-details {
-    padding: 10px;
-    background-color: #505050;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Align log message and delete button properly */
+.log-message-container {
+    flex-grow: 1;
 }
 
 .log-message {
     margin: 10px 0;
 }
+
+/* Project Users List */
+.project-users-list {
+    padding: 10px 20px;
+    background-color: #424242;
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.project-user-widget {
+    background-color: #505050;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.project-user-header {
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.user-log-summary span {
+    margin-right: 15px;
+    font-size: 12px;
+}
+
+/* User Sessions List */
+.user-sessions-list {
+    padding: 10px;
+    background-color: #606060;
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.user-session-widget {
+    background-color: #505050;
+    border-radius: 6px;
+}
+
+.user-session-header {
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.session-log-summary span {
+    margin-right: 15px;
+    font-size: 12px;
+}
+
+/* Adjust nested log details */
+.session-logs-list {
+    padding: 10px;
+    background-color: #505050;
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Delete Project User Button */
+.delete-project-user-btn {
+    background-color: #d9534f;
+    color: white;
+    font-size: 14px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    margin-top: 10px;
+    cursor: pointer;
+    width: 170px
+}
+
+.delete-project-user-btn:hover {
+    background-color: #c9302c;
+}
+
+/* Delete Session Button */
+.delete-session-btn {
+    background-color: #d9534f;
+    color: white;
+    font-size: 14px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    margin-top: 10px;
+    cursor: pointer;
+    width: 170px;
+}
+
+.delete-session-btn:hover {
+    background-color: #c9302c;
+}
+
+/* Align buttons in controls sections */
+.project-user-controls,
+.user-session-controls {
+    padding: 10px 20px;
+    background-color: #505050;
+    display: flex;
+    justify-content: flex-end;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+.log-type-info { color: skyblue; }
+.log-type-event { color: forestgreen; }
+.log-type-warning { color: orange; }
+.log-type-error { color: red; }

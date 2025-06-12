@@ -44,3 +44,30 @@ function confirmDelete(accountId) {
         alert("Deletion canceled.");
     }
 }
+
+function downloadDatabase() {
+    fetch('/download_database')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.blob();
+      })
+      .then(blob => {
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = 'database.db';
+
+        document.body.appendChild(a);
+        a.click();
+
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      })
+      .catch(error => {
+        console.error('Error downloading database:', error);
+      });
+  }

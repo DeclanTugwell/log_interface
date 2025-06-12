@@ -8,18 +8,18 @@ class Log:
     Encapsulates the attributes and structure of a log entry, including project association and timestamp.
     """
     log_id: int
-    project_id: int
+    session_id: int
     log_type: LogType
     message: str
     timestamp: datetime
 
-    def __init__(self, log_id: int, project_id: int, log_type: LogType, message: str, timestamp: datetime):
+    def __init__(self, log_id: int, session_id: int, log_type: LogType, message: str, timestamp: datetime):
         """
         Constructor for the Log class.
-        Initializes a Log object with the provided log_id, project_id, log_type, message, and timestamp.
+        Initializes a Log object with the provided log_id, session_id, log_type, message, and timestamp.
         """
         self.log_id = log_id
-        self.project_id = project_id
+        self.session_id = session_id
         self.log_type = log_type
         self.message = message
         self.timestamp = timestamp
@@ -30,16 +30,16 @@ class LogRepository(BaseRepository):
     Provides methods to fetch, add, update, and delete log entries in the database.
     """
     @staticmethod
-    def get_items_by_project_id(id):
+    def get_items_by_session_id(id):
         """
         Static method to fetch all logs associated with a specific project id.
         Returns a list of Log objects, each representing a log entry related to the project.
         """
         log_list = []
         db = BaseRepository.get_db()
-        items = db.execute("SELECT * FROM log WHERE project_id = ?", (id,)).fetchall()
+        items = db.execute("SELECT * FROM log WHERE session_id = ?", (id,)).fetchall()
         for item in items:
-            log_list.append(Log(item["log_id"], item["project_id"], LogType(int(item["log_type"])), item["message"], datetime.strptime(item["timestamp"], '%Y-%m-%d %H:%M:%S.%f'))) 
+            log_list.append(Log(item["log_id"], item["session_id"], LogType(int(item["log_type"])), item["message"], datetime.fromisoformat(item["timestamp"]))) 
         return log_list
     
     @staticmethod
@@ -51,7 +51,7 @@ class LogRepository(BaseRepository):
         db = BaseRepository.get_db()
         try:
             item = db.execute("SELECT * FROM log WHERE log_id = ?", (id,)).fetchall()[0]
-            log = Log(item["log_id"], item["project_id"], LogType(int(item["log_type"])), item["message"], datetime.strptime(item["timestamp"], '%Y-%m-%d %H:%M:%S.%f'))
+            log = Log(item["log_id"], item["session_id"], LogType(int(item["log_type"])), item["message"], datetime.fromisoformat(item["timestamp"]))
         except:
             log = None  
         return log
@@ -71,7 +71,7 @@ class LogRepository(BaseRepository):
         Takes a Log object and inserts it into the database.
         """
         db = self.get_db()
-        db.execute("INSERT INTO log (project_id, log_type, message, timestamp) VALUES (?, ?, ?, ?)", (item.project_id, item.log_type.value, item.message, item.timestamp))
+        db.execute("INSERT INTO log (session_id, log_type, message, timestamp) VALUES (?, ?, ?, ?)", (item.session_id, item.log_type.value, item.message, item.timestamp))
         db.commit()
 
     def delete_item(self, item: Log):

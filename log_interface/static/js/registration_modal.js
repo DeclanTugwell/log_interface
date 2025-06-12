@@ -6,11 +6,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const registerBtn = document.getElementById("register-btn");
     const usernameInput = document.getElementById("username");
     const passwordInput = document.getElementById("password");
-    const adminCheckboxInput = document.getElementById("admin-checkbox")
     function registerAccount(){
         const username = usernameInput.value.trim();
         const password = passwordInput.value.trim();
-        const isAdmin = adminCheckboxInput.checked;
 
         if (username === "" || password === ""){
             alert("Username and Password needs to be filled in!")
@@ -19,7 +17,6 @@ document.addEventListener("DOMContentLoaded", function () {
             const requestData = {
                 username: username,
                 password: password,
-                isAdmin: isAdmin
             }
 
             try{

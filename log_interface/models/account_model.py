@@ -1,5 +1,7 @@
 from enums.account_type import AccountType
 from repositories.account_repository import *
+from .project_model import ProjectModel
+from flask import session
 
 class AccountModel(Account):
     """
@@ -69,6 +71,14 @@ class AccountModel(Account):
 
         return is_valid
     
+    def fetch_associated_populated_projects(self):
+        is_admin = self.is_admin()
+        if (is_admin):
+            projects = ProjectModel.fetch_projects()
+        else:
+            projects = ProjectModel.fetch_projects_by_account_id(self.account_id)
+        return projects
+    
     def create_account(self):
         """
         Create account method, this will take the properties of the AccountModel and create a record within the account table
@@ -83,6 +93,15 @@ class AccountModel(Account):
         if (self.account_type == AccountType.Admin):
             is_admin = True
         return is_admin
+    
+    def is_associated_with_project(self, project_id):
+        is_associated = False
+        associated_projects = ProjectModel.fetch_projects_by_account_id(self.account_id)
+        for project in associated_projects:
+            if project.project_id == project_id:
+                is_associated = True
+
+        return is_associated
     
     def delete_account(self):
         """

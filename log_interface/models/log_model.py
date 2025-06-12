@@ -15,20 +15,20 @@ class LogModel(Log):
         Takes a Log object and maps its attributes to the LogModel attributes.
         """
         self.log_id = log.log_id
-        self.project_id = log.project_id
+        self.session_id = log.session_id
         self.log_type = log.log_type
         self.message = log.message
         self.timestamp = log.timestamp
         self.timestamp_str = log.timestamp.strftime(self.format_string)
     
     @staticmethod
-    def fetch_logs_by_project_id(project_id):
+    def fetch_logs_by_session_id(session_id):
         """
         Static method used to fetch all logs for a given project id.
         Returns a list of LogModel objects, each representing a log entry
         """
         log_models = []
-        for log in LogRepository.get_items_by_project_id(project_id):
+        for log in LogRepository.get_items_by_session_id(session_id):
             log_model = LogModel(log)
             log_models.append(log_model)
 
@@ -43,12 +43,12 @@ class LogModel(Log):
         return LogModel(LogRepository.get_item_by_id(log_id))
     
     @staticmethod
-    def create_from_request(project_id: int, message: str, timestamp: datetime, log_type: LogType):
+    def create_from_request(session_id: int, message: str, timestamp: datetime, log_type: LogType):
         """
         Static method to create a new LogModel from the provided request data
         Returns a new LogModel object based on the provided parameters
         """
-        return LogModel(Log(None, project_id, log_type, message, timestamp))
+        return LogModel(Log(None, session_id, log_type, message, timestamp))
 
     def create_log(self):
         """
@@ -76,8 +76,8 @@ class LogModel(Log):
         """
         return {
             "log_id": self.log_id,
-            "project_id": self.project_id,
-            "log_type": self.log_type.value,
+            "session_id": self.session_id,
+            "log_type": self.log_type.name,
             "message": self.message,
             "timestamp": self.timestamp.isoformat()
         }

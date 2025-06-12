@@ -18,10 +18,7 @@ def dashboard_page():
     accounts = []
     if (is_admin):
         accounts = AccountModel.fetch_accounts()
-        projects = ProjectModel.fetch_projects()
-    else:
-        projects = ProjectModel.fetch_projects_by_account_id(session["user_id"])
-    
+    projects = account.fetch_associated_populated_projects()
     return render_template('dashboard.html', isAdmin=is_admin, username=session["username"], accounts=accounts, projects=projects)
 
 @dashboard_blueprint.route("/logout", methods=["GET"])

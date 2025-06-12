@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 })
                 .then(response => {
                     if (response.status === 200) {
-                        alert("Project created, please refresh the page to view the project.")
+                        alert("Project created!")
                         return response.json();
                     } else if (response.status === 409) {
                         alert("Project name taken. Try a different name.");
