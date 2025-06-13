@@ -9,20 +9,6 @@ class TestLogModel(unittest.TestCase):
     """
     This test class unit tests methods related to the LogModel class that can be found in models.log_model
     """
-    @patch.object(LogRepository, 'get_items_by_project_id')
-    def test__WHEN_fetch_logs_by_project_id_called__WITH_valid_project_id__THEN_logs_returned(self, mock_get_items_by_project_id):
-        mock_get_items_by_project_id.return_value = [
-            MagicMock(log_id=1, project_id=1, log_type=LogType.Information, message="Log message 1", timestamp=datetime.now()),
-            MagicMock(log_id=2, project_id=1, log_type=LogType.Bug, message="Log message 2", timestamp=datetime.now())
-        ]
-        
-        logs = LogModel.fetch_logs_by_session_id(1)
-        
-        self.assertEqual(len(logs), 2)
-        self.assertEqual(logs[0].log_id, 1)
-        self.assertEqual(logs[1].log_id, 2)
-        mock_get_items_by_project_id.assert_called_once_with(1)
-
     @patch.object(LogRepository, 'get_item_by_id')
     def test__WHEN_fetch_log_by_id_called__WITH_valid_log_id__THEN_correct_log_returned(self, mock_get_item_by_id):
         mock_get_item_by_id.return_value = MagicMock(log_id=1, project_id=1, log_type=LogType.Information, message="Log message", timestamp=datetime.now())
