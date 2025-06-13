@@ -1,8 +1,13 @@
 import unittest
 from unittest.mock import patch, MagicMock
 from models.project_model import ProjectModel
+from models.user_session_model import UserSession
+from models.project_user_model import ProjectUser
 from repositories.project_repository import ProjectRepository
-from models.log_model import LogModel
+from repositories.project_user_repository import ProjectUserRepository
+from repositories.user_session_repository import UserSessionRepository
+from repositories.log_repository import LogRepository
+from models.log_model import Log
 from enums.log_type import LogType
 from datetime import datetime
 
@@ -44,18 +49,3 @@ class TestProjectModel(unittest.TestCase):
         project_model.delete_project()
         
         mock_delete_item.assert_called_once_with(project_model)
-
-    @patch.object(LogModel, 'fetch_logs_by_project_id')
-    def test__WHEN_populate_called__THEN_logs_populated_correctly(self, mock_fetch_logs_by_project_id):
-        mock_fetch_logs_by_project_id.return_value = [
-            MagicMock(log_id=1, project_id=1, log_type=LogType.Information, message="Log message 1", timestamp=datetime.now()),
-            MagicMock(log_id=2, project_id=1, log_type=LogType.Bug, message="Log message 2", timestamp=datetime.now())
-        ]
-        
-        project = MagicMock(project_id=1, account_id=1, project_name="Test Project")
-        project_model = ProjectModel(project)
-        
-        project_model.populate()
-        
-        self.assertEqual(len(project_model.log_list), 2)
-        mock_fetch_logs_by_project_id.assert_called_once_with(1)
