@@ -48,7 +48,7 @@ Password: `password`
 Username: `isolde`
 Password: `password`
 
-Username: `Declan`
+Username: `declan`
 Password: `password`
 
 Username: `matt`
@@ -60,7 +60,7 @@ Password: `password`
 Username: `jason`
 Password: `password`
 
-Username: `leyla`
+Username: `jenson`
 Password: `password`
 
 ## API Endpoints
