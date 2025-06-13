@@ -16,7 +16,7 @@ def init_db(app):
                 db.executescript(f.read())
                 db.commit()
     except:
-        print("Database already initialised")
+        print("Database already initialised.")
 
 # Defines the application configuration
 def initialise_app():
