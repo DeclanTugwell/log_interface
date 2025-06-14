@@ -29,19 +29,21 @@ document.addEventListener("DOMContentLoaded", function () {
                     body: JSON.stringify(requestData)
                 })
                 .then(response => {
-                    if (response.status === 200){
-                        alert("Account created!")
-                        usernameInput.value = ""
-                        passwordInput.value = ""
-                        adminCheckboxInput.value = false
-                        closeModal()
-                    } else if (response.status === 403){
-                        alert("Credentials can't contain any spaces, and password must be at least 7 characters")
-                    } else if (response.status === 409){
-                        alert("Account already exists with that username. Try log in!")
-                    } else{
-                        alert("Account could not be created ;(")
-                    }
+                    return response.json().then(data => {
+                        if (response.status === 200){
+                            alert("Account created!")
+                            usernameInput.value = ""
+                            passwordInput.value = ""
+                            adminCheckboxInput.value = false
+                            closeModal()
+                        } else if (response.status === 403){
+                            alert(data.message)
+                        } else if (response.status === 409){
+                            alert("Account already exists with that username. Try log in!")
+                        } else{
+                            alert("Account could not be created ;(")
+                        }
+                    })
                 })
                 .catch(exception => {
                     console.error(exception)

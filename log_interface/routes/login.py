@@ -50,16 +50,19 @@ def register():
         data = request.get_json()
         username = data.get("username")
         password = data.get("password")
-        if(AccountModel.validate_username_password_entry(username, password) == False):
+        credential_issues = AccountModel.validate_username_password_entry(username, password)
+        if(len(credential_issues) > 0):
+            error_messages = [str(issue) for issue in credential_issues]
+            output_message = "Password must contain: " + ", ".join(error_messages)
             return jsonify({
                 'status' : 'error',
-                'message' : 'username and password are not valid'
+                'message' : output_message
             }), 403
         if (AccountModel.fetch_account_by_username(username) is not None):
             return jsonify({
                 'status' : 'error',
                 'message': 'Username already taken'
-             }), 409
+                }), 409
         hashed_password = generate_password_hash(password)
         account_service = AccountModel.from_registration(username, hashed_password, False)
         new_account = account_service.create_account()

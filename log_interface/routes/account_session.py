@@ -29,7 +29,7 @@ def add_session():
             else:
                 return jsonify({
                     'status': 'unauthorised',
-                    'body' : "Log created"
+                    'body' : "Invalid credentials"
                 }), 401
     except:
         return jsonify({

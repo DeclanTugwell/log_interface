@@ -50,12 +50,12 @@ class TestAccountModel(unittest.TestCase):
     def test__WHEN_validate_username_password_entry_called__WITH_valid_input__THEN_true_returned(self):
         result = AccountModel.validate_username_password_entry("validuser", "securepass123")
         
-        self.assertTrue(result)
+        self.assertTrue(len(result) == 0)
 
     def test__WHEN_validate_username_password_entry_called__WITH_valid_input__THEN_true_returned(self):
-        self.assertFalse(AccountModel.validate_username_password_entry("bad user", "short"))
-        self.assertFalse(AccountModel.validate_username_password_entry("gooduser", "short"))
-        self.assertFalse(AccountModel.validate_username_password_entry("gooduser", None))
+        self.assertTrue(len(AccountModel.validate_username_password_entry("bad user", "short")) > 0)
+        self.assertTrue(len(AccountModel.validate_username_password_entry("gooduser", "short")) > 0)
+        self.assertTrue(len(AccountModel.validate_username_password_entry("gooduser", None)) > 0)
 
     def test__WHEN_is_admin_called__THEN_appropriate_value_returned(self):
         account = Account(1, "testuser", "password123", AccountType.Standard)
