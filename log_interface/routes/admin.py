@@ -13,7 +13,7 @@ def delete_account(account_id):
     Removes the account specified by the account_id
     """
     try:
-        session_user_id = getattr(session, "user_id", None)
+        session_user_id = session.get("user_id")
         if account_id == session_user_id:
             return jsonify({
                 "status" : "error",
@@ -41,7 +41,7 @@ def delete_account(account_id):
 @admin_blueprint.route("/download_database", methods=['GET'])
 def download_database():
     try:
-        session_user_id = getattr(session, "user_id", None)
+        session_user_id = session.get("user_id")
         account = AccountModel.fetch_account_by_id(session_user_id)
         if account.is_admin():
             return send_file('../data/data.db', as_attachment=True)

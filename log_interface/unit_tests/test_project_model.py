@@ -1,15 +1,7 @@
 import unittest
 from unittest.mock import patch, MagicMock
 from models.project_model import ProjectModel
-from models.user_session_model import UserSession
-from models.project_user_model import ProjectUser
 from repositories.project_repository import ProjectRepository
-from repositories.project_user_repository import ProjectUserRepository
-from repositories.user_session_repository import UserSessionRepository
-from repositories.log_repository import LogRepository
-from models.log_model import Log
-from enums.log_type import LogType
-from datetime import datetime
 
 class TestProjectModel(unittest.TestCase):
     """

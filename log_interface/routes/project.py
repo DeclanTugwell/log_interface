@@ -18,7 +18,7 @@ def add_project():
     try:
         data = request.get_json()
         project_name = data.get("projectName")
-        account_id = getattr(session, "user_id", None)
+        account_id = session.get("user_id")
         if (ProjectModel.fetch_project_by_project_name(project_name) is not None):
             return jsonify({
                 'status' : 'error',
@@ -41,7 +41,7 @@ def add_project():
 @project_blueprint.route("/get_projects", methods=['GET'])
 def get_projects():
     try:
-        session_user_id = getattr(session, "user_id", None)
+        session_user_id = session.get("user_id")
         account = AccountModel.fetch_account_by_id(session_user_id)
         projects = account.fetch_associated_populated_projects()
         serialised_projects = []
@@ -63,7 +63,7 @@ def delete_project(project_id):
     Deletes the project within the project table based upon the project_id provided.
     """
     try:
-        session_user_id = getattr(session, "user_id", None)
+        session_user_id = session.get("user_id")
         account = AccountModel.fetch_account_by_id(session_user_id)
         if account.is_admin():
             target_project = ProjectModel.fetch_project_by_id(project_id)

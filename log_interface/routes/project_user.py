@@ -11,7 +11,7 @@ def delete_session(project_user_id):
     Deletes a log session from the log sessions based on the log id
     """
     try:
-        session_user_id = getattr(session, "user_id", None)
+        session_user_id = session.get("user_id")
         if (session_user_id is not None):
             project_user = ProjectUserModel.fetch_project_user_by_project_user_id(project_user_id)
             project_user.delete_project_user()

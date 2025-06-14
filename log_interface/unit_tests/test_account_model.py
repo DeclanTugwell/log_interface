@@ -3,7 +3,6 @@ from unittest.mock import patch, MagicMock
 from models.account_model import AccountModel
 from repositories.account_repository import AccountRepository, Account
 from enums.account_type import AccountType
-from repositories.base_repository import BaseRepository
 
 class TestAccountModel(unittest.TestCase):
     """

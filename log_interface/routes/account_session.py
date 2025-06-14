@@ -71,7 +71,7 @@ def delete_session(session_id):
     Deletes a log session from the log sessions based on the log id
     """
     try:
-        if (getattr(session, "user_id", None) is not None):
+        if (session.get("user_id") is not None):
             target_session = UserSessionModel.fetch_user_session_by_session_id(session_id)
             target_session.delete_user_session()
             send_notification()
@@ -93,7 +93,7 @@ def delete_session(session_id):
 @account_session_blueprint.route("/get_sessions/<int:project_id>", methods=['GET'])
 def get_logs(project_id):
     try:
-        if (getattr(session, "user_id", None) is not None):
+        if (session.get("user_id") is not None):
             serialised_logs = []
             logs = LogModel.fetch_logs_by_session_id(project_id)
             for log in logs:

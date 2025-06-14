@@ -1,7 +1,6 @@
 from enums.account_type import AccountType
 from repositories.account_repository import *
 from .project_model import ProjectModel
-from flask import session
 from password_strength import PasswordPolicy
 
 policy = PasswordPolicy.from_names(
