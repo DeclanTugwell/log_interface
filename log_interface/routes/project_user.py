@@ -11,7 +11,8 @@ def delete_session(project_user_id):
     Deletes a log session from the log sessions based on the log id
     """
     try:
-        if (session["user_id"] is not None):
+        session_user_id = getattr(session, "user_id", None)
+        if (session_user_id is not None):
             project_user = ProjectUserModel.fetch_project_user_by_project_user_id(project_user_id)
             project_user.delete_project_user()
             send_notification()
@@ -22,10 +23,10 @@ def delete_session(project_user_id):
         else:
             return jsonify({
                 'status': 'unauthorised',
-                'body' : "Log created"
+                'body' : "Session not deleted"
             }), 401
     except:
         return jsonify({
             "status" : "error",
-            "message" : "Log not found"
+            "message" : "Session not found"
         }), 404

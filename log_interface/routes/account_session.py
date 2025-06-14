@@ -34,7 +34,7 @@ def add_session():
     except:
         return jsonify({
             'status' : 'error',
-            'message': 'Error creating log'
+            'message': 'Error creating session'
         }), 401
     
 def create_session(project_id, hardware_id, log_list):
@@ -61,7 +61,7 @@ def create_session(project_id, hardware_id, log_list):
     
     return jsonify({
                 'status': 'ok',
-                'body' : "Log created"
+                'body' : "Session created"
             }), 200
 
     
@@ -71,7 +71,7 @@ def delete_session(session_id):
     Deletes a log session from the log sessions based on the log id
     """
     try:
-        if (session["user_id"] is not None):
+        if (getattr(session, "user_id", None) is not None):
             target_session = UserSessionModel.fetch_user_session_by_session_id(session_id)
             target_session.delete_user_session()
             send_notification()
@@ -82,18 +82,18 @@ def delete_session(session_id):
         else:
             return jsonify({
                 'status': 'unauthorised',
-                'body' : "Log created"
+                'body' : "Session not deleted"
             }), 401
     except:
         return jsonify({
             "status" : "error",
-            "message" : "Log not found"
+            "message" : "Error deleting session"
         }), 404
     
 @account_session_blueprint.route("/get_sessions/<int:project_id>", methods=['GET'])
 def get_logs(project_id):
     try:
-        if (session["user_id"] is not None):
+        if (getattr(session, "user_id", None) is not None):
             serialised_logs = []
             logs = LogModel.fetch_logs_by_session_id(project_id)
             for log in logs:
@@ -107,7 +107,7 @@ def get_logs(project_id):
         else:
             return jsonify({
                 'status': 'unauthorised',
-                'body' : "Log created"
+                'body' : "Unable to get logs"
             }), 401
     except:
         return jsonify({

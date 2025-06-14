@@ -13,7 +13,8 @@ def dashboard_page():
     """
     Fetches data to populate the dashboard template and then renders and returns it.
     """
-    account = AccountModel.fetch_account_by_id(session["user_id"])
+    session_user_id = getattr(session, "user_id", None)
+    account = AccountModel.fetch_account_by_id(session_user_id)
     is_admin = account.is_admin()
     accounts = []
     if (is_admin):

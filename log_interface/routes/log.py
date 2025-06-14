@@ -16,7 +16,8 @@ def add_log():
     Creates a log entry using the data provided in the post request
     """
     try:
-        if (session["user_id"] is not None):
+        session_user_id = getattr(session, "user_id", None)
+        if (session_user_id is not None):
             data = request.get_json()
             message = data.get("message")
             logType = LogType(int(data.get("logType")))
@@ -48,7 +49,8 @@ def delete_log(log_id):
     Deletes a log entry from the log table based on the log id
     """
     try:
-        if (session["user_id"] is not None):
+        session_user_id = getattr(session, "user_id", None)
+        if (session_user_id is not None):
             target_log = LogModel.fetch_log_by_id(log_id)
             target_log.delete_log()
             send_notification()
@@ -59,7 +61,7 @@ def delete_log(log_id):
         else:
             return jsonify({
                 'status': 'unauthorised',
-                'body' : "Log created"
+                'body' : "Log not deleted"
             }), 401
     except:
         return jsonify({
@@ -73,7 +75,8 @@ def get_logs(project_id):
     Fetches all logs associated with a project from the log table and returns them in JSON format
     """
     try:
-        if (session["user_id"] is not None):
+        session_user_id = getattr(session, "user_id", None)
+        if (session_user_id is not None):
             serialised_logs = []
             logs = LogModel.fetch_logs_by_session_id(project_id)
             for log in logs:
@@ -101,7 +104,8 @@ def update_log_type(log_id):
     Updates the log type of the log entry associated with the log_id
     """
     try:
-        if (session["user_id"] is not None):
+        session_user_id = getattr(session, "user_id", None)
+        if (session_user_id is not None):
             data = request.get_json() 
             new_type = LogType(data.get("logType"))
             log = LogModel.fetch_log_by_id(log_id)
