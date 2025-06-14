@@ -24,3 +24,14 @@ jobs:
     - name: Run tests
       run: |
         PYTHONPATH=$(pwd)/log_interface python -m unittest discover -s unit_tests
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Trigger Render Deploy
+        env:
+          DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+        run: |
+          curl "$DEPLOY_HOOK"
