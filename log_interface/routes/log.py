@@ -34,7 +34,7 @@ def add_log():
         else:
             return jsonify({
                 'status': 'unauthorised',
-                'body' : "Log created"
+                'body' : "Log not created"
             }), 401
     except:
         return jsonify({
@@ -87,7 +87,7 @@ def get_logs(project_id):
         else:
             return jsonify({
                 'status': 'unauthorised',
-                'body' : "Log created"
+                'body' : "Log not fetched"
             }), 401
     except:
         return jsonify({
@@ -114,7 +114,7 @@ def update_log_type(log_id):
         else:
             return jsonify({
                 'status': 'unauthorised',
-                'body' : "Log created"
+                'body' : "Log not updated"
             }), 401
     except:
         return jsonify({

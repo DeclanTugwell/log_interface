@@ -2,6 +2,14 @@ from enums.account_type import AccountType
 from repositories.account_repository import *
 from .project_model import ProjectModel
 from flask import session
+from password_strength import PasswordPolicy
+
+policy = PasswordPolicy.from_names(
+    length=8,
+    uppercase=1,
+    numbers=1,
+    special=1,
+)
 
 class AccountModel(Account):
     """
@@ -63,13 +71,11 @@ class AccountModel(Account):
         """
         Static method used to validate the username and password entered during registration
         """
-        is_valid = False
-        if (username and password is not None):
-            if (" " not in username) and (" " not in password):
-                if len(password) > 6:
-                    is_valid = True
-
-        return is_valid
+        error_messages = policy.test(password)
+        if " " in username:
+            error_messages.append("Username cannot contain a space")
+        print(error_messages)
+        return error_messages
     
     def fetch_associated_populated_projects(self):
         is_admin = self.is_admin()
