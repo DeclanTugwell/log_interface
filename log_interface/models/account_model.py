@@ -69,12 +69,11 @@ class AccountModel(Account):
     @staticmethod
     def validate_username_password_entry(username, password):
         """
-        Static method used to validate the username and password entered during registration
+        Static method used to validate the username and password entered during registration, returns a list of errors during validation. The list is empty of the credentials are valid
         """
         error_messages = policy.test(password)
         if " " in username:
             error_messages.append("Username cannot contain a space")
-        print(error_messages)
         return error_messages
     
     def fetch_associated_populated_projects(self):
