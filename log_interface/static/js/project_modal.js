@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 .then(data => {
                     const projectId = data.body;
                     projectIdLabel.innerHTML = `<b>Project ID:</b> ${projectId}`
-                    let currentURL = `${window.location.protocol}//${window.location.hostname}/create_log/`
+                    let currentURL = `${window.location.protocol}//${window.location.hostname}/create_session/`
                     projectEndpointLabel.innerHTML = `<b>Create Log Endpoint:</b> ${currentURL}`
                 })
                 .catch(exception => {
