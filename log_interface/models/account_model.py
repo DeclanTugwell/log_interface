@@ -2,6 +2,7 @@ from enums.account_type import AccountType
 from repositories.account_repository import *
 from .project_model import ProjectModel
 from password_strength import PasswordPolicy
+from werkzeug.security import generate_password_hash
 
 policy = PasswordPolicy.from_names(
     length=8,
@@ -59,11 +60,12 @@ class AccountModel(Account):
         """
         Static method used to construct and return an AccountModel based on the data received during registration.
         """
+        hashed_password = generate_password_hash(password)
         if (is_admin == True):
             account_type = AccountType.Admin
         else:
             account_type = AccountType.Standard
-        return AccountModel(Account(None, username, password, account_type))
+        return AccountModel(Account(None, username, hashed_password, account_type))
     
     @staticmethod
     def validate_username_password_entry(username, password):

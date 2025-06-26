@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify, render_template, session, redirect, url_for
 from models.account_model import AccountModel
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import check_password_hash
 
 """
 Contains endpoints related to the login page
@@ -63,8 +63,7 @@ def register():
                 'status' : 'error',
                 'message': 'Username already taken'
                 }), 409
-        hashed_password = generate_password_hash(password)
-        account_service = AccountModel.from_registration(username, hashed_password, False)
+        account_service = AccountModel.from_registration(username, password, False)
         new_account = account_service.create_account()
         return jsonify({
             'status': 'ok',
