@@ -313,4 +313,4 @@ button {
 .log-type-info { color: skyblue; }
 .log-type-event { color: forestgreen; }
 .log-type-warning { color: orange; }
-.log-type-error { color: red; }
+.log-type-bug { color: red; }
