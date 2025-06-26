@@ -56,7 +56,6 @@ def create_session(project_id, hardware_id, log_list):
         log_model = LogModel.create_from_request(user_session.session_id, message, timestamp, log_type)
         log_model.create_log()
 
-    send_email_notification(user_session)
     send_notification()
     
     return jsonify({
