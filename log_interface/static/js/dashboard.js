@@ -153,7 +153,7 @@ function updateProjectsList(projects) {
                                 <span class="log-type-info"><b>Info: ${user.info_count}</b></span>
                                 <span class="log-type-event"><b>Events: ${user.event_count}</b></span>
                                 <span class="log-type-warning"><b>Warnings: ${user.warning_count}</b></span>
-                                <span class="log-type-error"><b>Errors: ${user.error_count}</b></span>
+                                <span class="log-type-bug"><b>Bugs: ${user.error_count}</b></span>
                             </div>
                             <span class="expand-icon" id="expand-user-icon-${user.user_id}">+</span>
                         </div>
@@ -168,7 +168,7 @@ function updateProjectsList(projects) {
                                             <span class="log-type-info"><b>Info: ${session.info_count}</b></span>
                                             <span class="log-type-event"><b>Events: ${session.event_count}</b></span>
                                             <span class="log-type-warning"><b>Warnings: ${session.warning_count}</b></span>
-                                            <span class="log-type-error"><b>Errors: ${session.error_count}</b></span>
+                                            <span class="log-type-bug"><b>Bugs: ${session.error_count}</b></span>
                                         </div>
                                         <span class="expand-icon" id="expand-session-icon-${session.session_id}">+</span>
                                     </div>
@@ -186,29 +186,29 @@ function updateProjectsList(projects) {
                                                     <div class="log-message-container">
                                                         <p class="log-message">${log.message}</p>
                                                     </div>
-                                                    <div class="delete-log-container">
+                                                    ${IS_ADMIN ? `<div class="delete-log-container">
                                                         <button class="delete-log-btn delete-btn" onclick="deleteLog('${log.log_id}')">Delete Log</button>
-                                                    </div>
+                                                    </div>` : ''}
                                                 </div>
                                             </div>
                                         `
                                             )
                                             .join("")}
-                                        <div class="delete-session-container">
+                                        ${IS_ADMIN ? `<div class="delete-session-container">
                                             <button class="delete-session-btn delete-btn" onclick="deleteSession('${session.session_id}')">Delete Session</button>
-                                        </div>
+                                        </div>` : ''}
                                     </div>
                                 </div>
                             `
                                 )
                                 .join("")}
-                            <button class="delete-project-user-btn delete-btn" onclick="deleteProjectUser('${user.user_id}')">Delete Project User</button>
+                            ${IS_ADMIN ? `<button class="delete-project-user-btn delete-btn" onclick="deleteProjectUser('${user.user_id}')">Delete Project User</button>` : ''}
                         </div>
                     </div>
                 `
                     )
                     .join("")}
-                <button class="delete-project-btn delete-btn" onclick="deleteProject('${project.project_id}')">Delete Project</button>
+                ${IS_ADMIN ? `<button class="delete-project-btn delete-btn" onclick="deleteProject('${project.project_id}')">Delete Project</button>` : ''}
             </div>
         `;
         projectsContainer.appendChild(projectWidget);

@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="../static/css/log_creation_styles.css">
 </head>
 <body>
+    <script>
+        const IS_ADMIN = {{ 'true' if isAdmin else 'false' }};
+    </script>
     <div class="dashboard-container">
         <div class="dashboard-header">
             <h1 class="dashboard-title">{{ username }}'s Dashboard</h1>
@@ -49,7 +52,7 @@
                                         <span class="log-type-info"><b>Info: {{ session.info_count }}</b></span>
                                         <span class="log-type-event"><b>Events: {{ session.event_count }}</b></span>
                                         <span class="log-type-warning"><b>Warnings: {{ session.warning_count }}</b></span>
-                                        <span class="log-type-bug"><b>bugs: {{ session.error_count }}</b></span>
+                                        <span class="log-type-bug"><b>Bugs: {{ session.error_count }}</b></span>
                                     </div>
                                     <span class="expand-icon" id="expand-session-icon-{{ session.session_id }}">+</span>
                                 </div>

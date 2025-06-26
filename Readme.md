@@ -82,7 +82,7 @@ http://127.0.0.1:5000/create_log
 #### Example
 
 ```bash
-curl -X POST http://localhost:5000/create_session -H "Content-Type: application/json" -d '{"projectId": 1, "hardwareId": "HW-001", "logList": [{"message": "Example Info Message", "logType": 1, "timestamp": "2024-06-25T12:00:00Z"}, {"message": "Example Event Message", "logType": 0, "timestamp": "2024-06-25T12:00:00Z"}, {"message": "Example Warning Message", "logType": 3, "timestamp": "2024-06-25T12:00:00Z"}, {"message": "Example Error Message", "logType": 2, "timestamp": "2024-06-25T12:00:00Z"}], "username": "admin", "password": "Admin!23"}'
+curl -X POST http://localhost:5000/create_session -H "Content-Type: application/json" -d '{"projectId": 1, "hardwareId": "HW-011", "logList": [{"message": "Example Info Message", "logType": 1, "timestamp": "2024-06-25T12:00:00Z"}], "username": "admin", "password": "Admin!23"}'
   ```
 
 ## Deleting logs
