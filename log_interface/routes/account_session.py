@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request, session
+from flask import Blueprint, jsonify, request, session, current_app
 from models.log_model import LogModel
 from models.account_model import AccountModel
 from models.project_user_model import ProjectUserModel
@@ -35,7 +35,7 @@ def add_session():
         return jsonify({
             'status' : 'error',
             'message': 'Error creating session'
-        }), 401
+        }), 404
     
 def create_session(project_id, hardware_id, log_list):
     target_user = ProjectUserModel.fetch_project_user_by_hardware_id(hardware_id)
@@ -56,7 +56,8 @@ def create_session(project_id, hardware_id, log_list):
         log_model = LogModel.create_from_request(user_session.session_id, message, timestamp, log_type)
         log_model.create_log()
 
-    send_notification()
+    if current_app.config.get('ENABLE_NOTIFICATIONS', True):
+        send_notification()
     
     return jsonify({
                 'status': 'ok',
