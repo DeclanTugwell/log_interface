@@ -3,6 +3,7 @@ from unittest.mock import patch, MagicMock
 from models.account_model import AccountModel
 from repositories.account_repository import AccountRepository, Account
 from enums.account_type import AccountType
+from werkzeug.security import check_password_hash
 
 class TestAccountModel(unittest.TestCase):
     """
@@ -65,3 +66,13 @@ class TestAccountModel(unittest.TestCase):
 
         self.assertFalse(standard_account.is_admin())
         self.assertTrue(admin_account.is_admin())
+
+    def test_WHEN_from_registration_called_THEN_password_is_hashed(self):
+        plain_password = "SecurePass123!"
+        username = "integration_test_user"
+        
+        account = AccountModel.from_registration(username, plain_password, is_admin=False)
+        
+        self.assertNotEqual(account.password, plain_password)
+        
+        self.assertTrue(check_password_hash(account.password, plain_password))

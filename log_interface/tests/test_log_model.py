@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch, MagicMock
-from datetime import datetime
+from datetime import datetime, UTC
 from models.log_model import LogModel
 from repositories.log_repository import LogRepository
 from enums.log_type import LogType
@@ -11,7 +11,7 @@ class TestLogModel(unittest.TestCase):
     """
     @patch.object(LogRepository, 'get_item_by_id')
     def test__WHEN_fetch_log_by_id_called__WITH_valid_log_id__THEN_correct_log_returned(self, mock_get_item_by_id):
-        mock_get_item_by_id.return_value = MagicMock(log_id=1, project_id=1, log_type=LogType.Information, message="Log message", timestamp=datetime.now())
+        mock_get_item_by_id.return_value = MagicMock(log_id=1, project_id=1, log_type=LogType.Information, message="Log message", timestamp=datetime.now(UTC))
         
         log = LogModel.fetch_log_by_id(1)
         
